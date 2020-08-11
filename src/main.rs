@@ -1,3 +1,3 @@
 fn main() {
-    println!("Hello, world!");
+    println!("Package hold for Sarga <https://github.com/Bernd-L/sarga>");
 }
