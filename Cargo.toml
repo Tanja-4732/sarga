@@ -8,6 +8,8 @@ repository = "https://github.com/bernd-l/sarga"
 homepage = "https://github.com/bernd-l/sarga#readme"
 readme = "README.md"
 documentation = "https://docs.rs/sarga"
+description = "Saga pattern server for Rust"
+include = ["/src", "/Cargo.toml", "/Cargo.lock", "/README.md", "/LICENSE.md"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
