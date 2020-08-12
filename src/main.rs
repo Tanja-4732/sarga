@@ -1,9 +1,12 @@
 mod cli;
+mod constants;
 mod tasks;
 mod test;
 
 fn main() {
-    println!("Package hold for Sarga <https://github.com/Bernd-L/sarga>");
+    println!("Sarga version {}", constants::VERSION);
+    println!("Copyright 2020 Bernd-L; All rights reserved.");
+    println!("Licensed under the AGPL 3.0 <https://www.gnu.org/licenses/agpl-3.0.en.html>\n");
 
     test::test_main();
 }
