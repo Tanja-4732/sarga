@@ -4,7 +4,7 @@ use crate::tasks::instruction::Instruction;
 #[derive(Debug)]
 pub struct Saga {
   instructions: Vec<Instruction>,
-  state: State,
+  state: SagaState,
   abort_type: AbortType,
 }
 
@@ -13,34 +13,39 @@ impl Saga {
   pub fn new(abort_type: AbortType) -> Saga {
     Saga {
       instructions: Vec::new(),
-      state: State::Pending,
+      state: SagaState::Pending,
       abort_type,
     }
   }
 
-  /// Appends an instruction to the end of the saga
+  /// Appends an instruction to the end of the saga if it has not been started yet
   pub fn add_instruction(mut self, instruction: Instruction) -> Self {
     match self.state {
-      State::Pending => {
+      // Add the requested instruction to the saga
+      SagaState::Pending => {
         self.instructions.push(instruction);
         self
       }
+
+      // Prevent the modification of the saga after starting
       _ => panic!("Cannot append instructions after starting"),
     }
   }
 
   /// Starts the saga in a blocking fashion
   pub fn start_blocking(&mut self) {
-    // TODO start all instructions in a loop
-    // TODO Set the state inside of the loop
-    self.state = State::Running(1);
+    for i in 0..self.instructions.len() {
+      self.state = SagaState::Running(i);
+      self.instructions[i].start_blocking().unwrap();
+    }
+
     // TODO Return something
   }
 }
 
 /// The current state of the saga
 #[derive(Debug)]
-enum State {
+enum SagaState {
   Pending,
   Running(usize),
   Aborting(usize),
