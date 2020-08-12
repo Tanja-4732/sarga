@@ -21,6 +21,8 @@ impl Instruction {
   /// Executes the instruction in a blocking fashion
   pub fn start_blocking(&self) -> Result<&Self, ()> {
     Ok(self)
+
+    // TODO Start the transaction, await the result, and return
   }
 }
 

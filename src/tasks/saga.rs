@@ -36,11 +36,22 @@ impl Saga {
   pub fn start_blocking(&mut self) {
     for i in 0..self.instructions.len() {
       self.state = SagaState::Running(i);
-      self.instructions[i].start_blocking().unwrap();
+
+      match self.instructions[i].start_blocking() {
+        Ok(_) => (),
+        Err(()) => self.abort_blocking(i),
+      }
     }
 
     // TODO Return something
   }
+
+  fn abort_blocking(&mut self, i: usize) {
+    self.state = SagaState::Aborting(i);
+  }
+
+  fn abort_blocking_forwards(&mut self) {}
+  fn abort_blocking_backwards(&mut self) {}
 }
 
 /// The current state of the saga
