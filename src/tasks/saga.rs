@@ -33,21 +33,23 @@ impl Saga {
   }
 
   /// Starts the saga in a blocking fashion
-  pub fn start_blocking(&mut self) {
+  pub fn start_blocking(&mut self) -> Result<(), ()> {
     for i in 0..self.instructions.len() {
       self.state = SagaState::Running(i);
 
       match self.instructions[i].start_blocking() {
         Ok(_) => (),
-        Err(()) => self.abort_blocking(i),
-      }
+        Err(()) => return self.abort_blocking(i),
+      };
     }
 
-    // TODO Return something
+    self.state = SagaState::Finished;
+    Ok(())
   }
 
-  fn abort_blocking(&mut self, i: usize) {
+  fn abort_blocking(&mut self, i: usize) -> Result<(), ()> {
     self.state = SagaState::Aborting(i);
+    Ok(())
   }
 
   fn abort_blocking_forwards(&mut self) {}

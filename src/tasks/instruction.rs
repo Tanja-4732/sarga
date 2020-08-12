@@ -20,7 +20,11 @@ impl Instruction {
 
   /// Executes the instruction in a blocking fashion
   pub fn start_blocking(&self) -> Result<&Self, ()> {
+    self.transaction.run_blocking();
+
     Ok(self)
+
+    // Err(())
 
     // TODO Start the transaction, await the result, and return
   }
