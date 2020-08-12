@@ -20,8 +20,13 @@ impl Saga {
 
   /// Appends an instruction to the end of the saga
   pub fn add_instruction(mut self, instruction: Instruction) -> Self {
-    self.instructions.push(instruction);
-    self
+    match self.state {
+      State::Pending => {
+        self.instructions.push(instruction);
+        self
+      }
+      _ => panic!("Cannot append instructions after starting"),
+    }
   }
 
   /// Starts the saga in a blocking fashion
