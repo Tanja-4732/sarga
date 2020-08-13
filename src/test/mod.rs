@@ -1,8 +1,8 @@
-use crate::tasks::compensation::Compensation;
-use crate::tasks::instruction::Instruction;
-use crate::tasks::saga::AbortType;
-use crate::tasks::saga::Saga;
-use crate::tasks::transaction::Transaction;
+use crate::core::compensation::Compensation;
+use crate::core::instruction::Instruction;
+use crate::core::saga::AbortType;
+use crate::core::saga::Saga;
+use crate::core::transaction::Transaction;
 
 pub fn test_main() {
   let mut saga = Saga::new(AbortType::Backward)

@@ -1,6 +1,6 @@
 mod cli;
 mod constants;
-mod tasks;
+mod core;
 mod test;
 
 fn main() {

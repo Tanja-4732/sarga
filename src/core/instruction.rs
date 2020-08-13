@@ -1,5 +1,5 @@
-use crate::tasks::compensation::Compensation;
-use crate::tasks::transaction::Transaction;
+use crate::core::compensation::Compensation;
+use crate::core::transaction::Transaction;
 
 #[derive(Debug)]
 pub struct Instruction {

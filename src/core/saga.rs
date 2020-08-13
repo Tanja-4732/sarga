@@ -1,4 +1,4 @@
-use crate::tasks::instruction::Instruction;
+use crate::core::instruction::Instruction;
 
 /// A saga is a list of instructions, leading to eventual consistency
 #[derive(Debug)]
