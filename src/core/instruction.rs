@@ -1,16 +1,21 @@
-use crate::core::compensation::Compensation;
-use crate::core::transaction::Transaction;
-
 #[derive(Debug)]
-pub struct Instruction {
+pub struct Instruction<T, C>
+where
+  T: Fn() -> Result<(), ()>,
+  C: Fn() -> (),
+{
   state: InstructionState,
-  transaction: Transaction,
-  compensation: Compensation,
+  transaction: T,
+  compensation: C,
 }
 
-impl Instruction {
+impl<T, C> Instruction<T, C>
+where
+  T: Fn() -> Result<(), ()>,
+  C: Fn() -> (),
+{
   /// Create a new instruction from a given transaction and a compensation
-  pub fn new(transaction: Transaction, compensation: Compensation) -> Instruction {
+  pub fn new(transaction: T, compensation: C) -> Instruction<T, C> {
     Instruction {
       state: InstructionState::ScheduledRun,
       transaction,
@@ -19,8 +24,8 @@ impl Instruction {
   }
 
   /// Executes the instruction in a blocking fashion
-  pub fn start_blocking(&self) -> Result<&Self, ()> {
-    self.transaction.run_blocking();
+  pub fn start(&self) -> Result<&Self, ()> {
+    self.transaction.run();
 
     Ok(self)
 
