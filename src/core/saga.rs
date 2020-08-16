@@ -2,8 +2,12 @@ use crate::core::instruction::Instruction;
 
 /// A saga is a list of instructions, leading to eventual consistency
 #[derive(Debug)]
-pub struct Saga {
-  instructions: Vec<Instruction>,
+pub struct Saga<T,C>
+where
+  T: Fn() -> Result<(), ()>,
+  C: Fn() -> (),
+{
+  instructions: Vec<Instruction<T, C>>,
   state: SagaState,
   abort_type: AbortType,
 }
@@ -19,7 +23,7 @@ impl Saga {
   }
 
   /// Appends an instruction to the end of the saga if it has not been started yet
-  pub fn add_instruction(mut self, instruction: Instruction) -> Self {
+  pub fn add_instruction(mut self, instruction:  ) -> Self {
     match self.state {
       // Add the requested instruction to the saga
       SagaState::Pending => {

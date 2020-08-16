@@ -25,7 +25,7 @@ where
 
   /// Executes the instruction in a blocking fashion
   pub fn start(&self) -> Result<&Self, ()> {
-    self.transaction.run();
+    (self.transaction)();
 
     Ok(self)
 
